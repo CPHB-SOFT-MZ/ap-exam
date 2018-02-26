@@ -31,7 +31,7 @@ public class Movie {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setDuration(int seconds) {
+        this.duration = Duration.ofSeconds(seconds);
     }
 }
