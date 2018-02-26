@@ -1,3 +1,7 @@
+package facade;
+
+import model.Movie;
+
 import java.util.List;
 
 public interface MovieFacade {
@@ -68,5 +72,13 @@ public interface MovieFacade {
      * @param title
      * @return
      */
-    Movie searchByTitle(String title);
+    Movie searchByTitle(String title, List<Movie> movies);
+
+    /**
+     * Return a list of movies where the title contains one or more of the provided keywords
+     * @param keywords
+     * @param movies
+     * @return
+     */
+    List<Movie> findByKeywords(String[] keywords, List<Movie> movies);
 }
