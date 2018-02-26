@@ -44,7 +44,7 @@ class MovieFacadeImplTest {
 
     @Test
     void longestMovieWithHighRating() {
-        Movie result = movieFacade.longestMovieWithHighRating(60.0, movies);
+        Movie result = assertTimeout(Duration.ofMillis(10), () -> movieFacade.longestMovieWithHighRating(60.0, movies));
 
         assertAll("60.0 as minimum rating",
                 () -> {
@@ -57,7 +57,7 @@ class MovieFacadeImplTest {
                 }
         );
 
-        Movie result2 = movieFacade.longestMovieWithHighRating(55.0, movies);
+        Movie result2 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.longestMovieWithHighRating(55.0, movies));
 
         assertAll("55.0 as minimum rating",
                 () -> {
@@ -73,10 +73,10 @@ class MovieFacadeImplTest {
         );
 
 
-        Movie result3 = movieFacade.longestMovieWithHighRating(100.0, movies);
+        Movie result3 = assertTimeout(Duration.ofMillis(5), () -> movieFacade.longestMovieWithHighRating(100.0, movies));
         assertNull(result3);
 
-        Movie result4 = movieFacade.longestMovieWithHighRating(0.0, movies);
+        Movie result4 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.longestMovieWithHighRating(0.0, movies));
         assertNotNull(result4);
     }
 
