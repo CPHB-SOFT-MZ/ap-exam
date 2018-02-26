@@ -46,9 +46,38 @@ class MovieFacadeImplTest {
     void longestMovieWithHighRating() {
         Movie result = movieFacade.longestMovieWithHighRating(60.0, movies);
 
-        assertEquals(Duration.ofSeconds(16491), result.getDuration());
-        assertEquals("ad consectetur adipisicing", result.getTitle());
-        assertEquals(7, result.getRatings().size());
+        assertAll("60.0 as minimum rating",
+                () -> {
+                    assertNotNull(result);
+                },
+                () -> {
+                    assertEquals(Duration.ofSeconds(16491), result.getDuration());
+                    assertEquals("ad consectetur adipisicing", result.getTitle());
+                    assertEquals(7, result.getRatings().size());
+                }
+        );
+
+        Movie result2 = movieFacade.longestMovieWithHighRating(55.0, movies);
+
+        assertAll("55.0 as minimum rating",
+                () -> {
+                    assertNotNull(result2);
+                },
+                () -> {
+                    assertNotEquals(Duration.ofSeconds(16491), result2.getDuration());
+                    assertNotEquals(result2, result);
+                    assertEquals(12, result2.getRatings().size());
+                    assertEquals("ea officia nostrud", result2.getTitle());
+                    assertEquals(17856, result2.getDuration().getSeconds());
+                }
+        );
+
+
+        Movie result3 = movieFacade.longestMovieWithHighRating(100.0, movies);
+        assertNull(result3);
+
+        Movie result4 = movieFacade.longestMovieWithHighRating(0.0, movies);
+        assertNotNull(result4);
     }
 
     @Test
