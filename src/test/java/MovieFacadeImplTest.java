@@ -8,7 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,19 +32,23 @@ class MovieFacadeImplTest {
 
     @Test
     void averageRating() {
-        int counter = 0;
-        int totalRating = 0;
-        for(Movie movie : movies) {
-            for(Rating rating : movie.getRatings()) {
-                counter++;
-                totalRating += rating.getRating();
-            }
-        }
-        System.out.println((totalRating * 1.0) / (counter * 1.0));
+        Double average35 = 71.5;
+        assertEquals(average35, movieFacade.averageRating(movies.get(35)));
+
+        Double average0 = 55.416666666666664;
+        assertEquals(average0, movieFacade.averageRating(movies.get(0)));
+
+        Double average37 = 52.0;
+        assertEquals(average37, movieFacade.averageRating(movies.get(37)));
     }
 
     @Test
     void longestMovieWithHighRating() {
+        Movie result = movieFacade.longestMovieWithHighRating(60.0, movies);
+
+        assertEquals(Duration.ofSeconds(16491), result.getDuration());
+        assertEquals("ad consectetur adipisicing", result.getTitle());
+        assertEquals(7, result.getRatings().size());
     }
 
     @Test
