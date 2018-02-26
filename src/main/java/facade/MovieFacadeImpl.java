@@ -45,7 +45,7 @@ public class MovieFacadeImpl implements MovieFacade{
 
     @Override
     public List<Movie> sortByTimeDescending(List<Movie> movies) {
-        return null;
+        return movies.stream().sorted(Comparator.comparing(Movie::getDuration).reversed()).collect(Collectors.toList());
     }
 
     @Override
