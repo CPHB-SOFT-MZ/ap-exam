@@ -4,6 +4,7 @@ import model.Movie;
 import model.Rating;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -49,27 +50,30 @@ class MovieFacadeImplTest {
         assertAll("60.0 as minimum rating",
                 () -> {
                     assertNotNull(result);
-                },
-                () -> {
-                    assertEquals(Duration.ofSeconds(16491), result.getDuration());
-                    assertEquals("ad consectetur adipisicing", result.getTitle());
-                    assertEquals(7, result.getRatings().size());
+
+                    assertAll("Value check", () -> {
+                        assertEquals(Duration.ofSeconds(16491), result.getDuration());
+                        assertEquals("ad consectetur adipisicing", result.getTitle());
+                        assertEquals(7, result.getRatings().size());
+                    });
                 }
+
         );
 
         Movie result2 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.longestMovieWithHighRating(55.0, movies));
 
         assertAll("55.0 as minimum rating",
-                () -> {
-                    assertNotNull(result2);
-                },
-                () -> {
+            () -> {
+                assertNotNull(result2);
+
+                assertAll("Value check", () -> {
                     assertNotEquals(Duration.ofSeconds(16491), result2.getDuration());
                     assertNotEquals(result2, result);
                     assertEquals(12, result2.getRatings().size());
                     assertEquals("ea officia nostrud", result2.getTitle());
                     assertEquals(17856, result2.getDuration().getSeconds());
-                }
+                });
+            }
         );
 
 
@@ -90,6 +94,24 @@ class MovieFacadeImplTest {
 
     @Test
     void sortByTimeDescending() {
+        List<Movie> sorted = assertTimeout(Duration.ofMillis(50), () -> movieFacade.sortByTimeDescending(movies));
+
+        assertAll("Check if not null", () -> {
+            assertNotNull(sorted);
+
+            assertAll("Check if elements are not the same",
+                () -> {
+                    assertNotEquals(movies.get(0), sorted.get(0));
+                    assertNotEquals(movies.get(99), sorted.get(99));
+
+                    assertAll("Check if sorted", () -> {
+                        for (int i = 0; i < sorted.size() - 2; i++) {
+                            assertTrue(sorted.get(i).getDuration().getSeconds() > sorted.get(i+1).getDuration().getSeconds());
+                        }
+                    });
+                }
+            );
+        });
     }
 
     @Test
