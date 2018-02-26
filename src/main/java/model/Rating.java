@@ -3,17 +3,17 @@ package model;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Rating {
-    private Double rating;
+    private Integer rating;
     private String comment;
 
     public Rating() {
     }
 
-    public Double getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

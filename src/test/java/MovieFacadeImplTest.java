@@ -1,6 +1,7 @@
 import facade.MovieFacade;
 import facade.MovieFacadeImpl;
 import model.Movie;
+import model.Rating;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MovieFacadeImplTest {
 
-    MovieFacade movieFacade;
-    List<Movie> movies;
+    private MovieFacade movieFacade;
+    private List<Movie> movies;
 
 
     @BeforeEach
@@ -26,7 +27,15 @@ class MovieFacadeImplTest {
 
     @Test
     void averageRating() {
-        
+        int counter = 0;
+        int totalRating = 0;
+        for(Movie movie : movies) {
+            for(Rating rating : movie.getRatings()) {
+                counter++;
+                totalRating += rating.getRating();
+            }
+        }
+        System.out.println((totalRating * 1.0) / (counter * 1.0));
     }
 
     @Test
