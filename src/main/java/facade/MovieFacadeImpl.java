@@ -65,6 +65,11 @@ public class MovieFacadeImpl implements MovieFacade{
 
     @Override
     public Movie searchByTitle(String title, List<Movie> movies) {
+        for (Movie mov : movies) {
+            if (mov.getTitle().equals(title)) {
+                return mov;
+            }
+        }
         return null;
     }
 
