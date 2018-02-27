@@ -54,8 +54,16 @@ public class MovieFacadeImpl implements MovieFacade{
     }
 
     @Override
-    public List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating) {
-        return null;
+    public List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating, List<Movie> movies) {
+        List<Movie> list = new ArrayList();
+        for (Movie mov : movies) {
+            double avg = averageRating(mov);
+            if (lowerRating < avg && avg < higherRating) {
+                list.add(mov);
+            }
+        }
+        return list;
+
     }
 
     @Override

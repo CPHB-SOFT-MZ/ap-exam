@@ -120,6 +120,16 @@ class MovieFacadeImplTest {
 
     @Test
     void moviesBetweenRatings() {
+        List<Movie> moviesBetweenRatings = movieFacade.moviesBetweenRatings(51.0, 89.0, movies);
+
+        assertAll("Check if not null", () -> {
+            assertNotNull(moviesBetweenRatings);
+
+            for (Movie mov : moviesBetweenRatings) {
+                double avg = movieFacade.averageRating(mov);
+                assertTrue(51.0 < avg && avg < 89.0);
+            }
+        });
     }
 
     @Test
