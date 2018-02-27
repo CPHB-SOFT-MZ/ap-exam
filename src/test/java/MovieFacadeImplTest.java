@@ -124,6 +124,22 @@ class MovieFacadeImplTest {
 
     @Test
     void fbRatings() {
+        String div3 = "Divisble by 3";
+        String div5 = "Divisble by 5";
+        String div3and5 = "Divisble by 3 and 5";
+
+        assertAll("Check if comments are changed", () -> {
+            for (Rating rate : movieFacade.fbRatings(movies.get(99)).getRatings()) {
+                if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+                    assertEquals(div3and5, rate.getComment());
+                } else if (rate.getRating() % 3 == 0) {
+                    assertEquals(div3, rate.getComment());
+                } else if (rate.getRating() % 5 == 0) {
+                    assertEquals(div5, rate.getComment());
+                }
+            }
+        });
+
     }
 
     @Test

@@ -60,7 +60,16 @@ public class MovieFacadeImpl implements MovieFacade{
 
     @Override
     public Movie fbRatings(Movie movie) {
-        return null;
+        for (Rating rate : movie.getRatings()) {
+            if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+                rate.setComment("Divisble by 3 and 5");
+            } else if (rate.getRating() % 3 == 0) {
+                rate.setComment("Divisble by 3");
+            } else if (rate.getRating() % 5 == 0) {
+                rate.setComment("Divisble by 5");
+            }
+        }
+        return movie;
     }
 
     @Override
