@@ -30,17 +30,24 @@ public class MovieFacadeImpl implements MovieFacade{
             }
         }
 
-        return moviesSort.stream().sorted(Comparator.comparing(Movie::getDuration).reversed()).findFirst().orElse(null);
+        return moviesSort.stream().max(Comparator.comparing(Movie::getDuration)).orElse(null);
     }
 
     @Override
     public Movie shortestMovieWithLowRating(Double maximumRating, List<Movie> movies) {
-        return null;
+        List<Movie> moviesSort = new ArrayList<>();
+        for(Movie mov : movies) {
+            if (this.averageRating(mov) < maximumRating) {
+                moviesSort.add(mov);
+            }
+        }
+
+        return moviesSort.stream().sorted(Comparator.comparing(Movie::getDuration)).findFirst().orElse(null);
     }
 
     @Override
     public List<Movie> topRatedMovies(int N, List<Movie> movies) {
-        return null;
+        return movies.stream().sorted(Comparator.comparing(this::averageRating).reversed()).limit(N).collect(Collectors.toList());
     }
 
     @Override
@@ -69,7 +76,7 @@ public class MovieFacadeImpl implements MovieFacade{
     @Override
     public Movie fbRatings(Movie movie) {
         for (Rating rate : movie.getRatings()) {
-            if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+            if (rate.getRating() % 15 == 0) {
                 rate.setComment("Divisble by 3 and 5");
             } else if (rate.getRating() % 3 == 0) {
                 rate.setComment("Divisble by 3");

@@ -90,6 +90,10 @@ class MovieFacadeImplTest {
 
     @Test
     void topRatedMovies() {
+        List<Movie> movi = movieFacade.topRatedMovies(5, movies);
+        for (int i = 0; i < movi.size() - 2; i++) {
+            assertTrue(movieFacade.averageRating(movi.get(i)) > movieFacade.averageRating(movi.get(i+1)));
+        }
     }
 
     @Test
@@ -140,7 +144,7 @@ class MovieFacadeImplTest {
 
         assertAll("Check if comments are changed", () -> {
             for (Rating rate : movieFacade.fbRatings(movies.get(99)).getRatings()) {
-                if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+                if (rate.getRating() % 15 == 0) {
                     assertEquals(div3and5, rate.getComment());
                 } else if (rate.getRating() % 3 == 0) {
                     assertEquals(div3, rate.getComment());
