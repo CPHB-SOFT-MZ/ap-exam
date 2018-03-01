@@ -154,16 +154,13 @@ class MovieFacadeImplTest {
 
     @Test
     void searchByTitle() {
-        String title3 = "ut tempor voluptate";
-        //String title3 = movies.get(3).getTitle();
+        String title3 = movies.get(3).getTitle();
         assertEquals(movies.get(3), movieFacade.searchByTitle(title3, movies));
 
-        String title23 = "dolor aliqua reprehenderit";
-        //String title23 = movies.get(23).getTitle();
+        String title23 = movies.get(23).getTitle();
         assertEquals(movies.get(23), movieFacade.searchByTitle(title23, movies));
 
-        String title83 = "do id adipisicing";
-        //String title83 = movies.get(83).getTitle();
+        String title83 = movies.get(83).getTitle();
         assertEquals(movies.get(83), movieFacade.searchByTitle(title83, movies));
     }
 
