@@ -55,7 +55,7 @@ public interface MovieFacade {
      * @param higherRating
      * @return
      */
-    List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating);
+    List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating, List<Movie> movies);
 
     /**
      * Change all the comments of ratings.

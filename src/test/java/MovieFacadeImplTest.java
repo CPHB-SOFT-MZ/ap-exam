@@ -120,14 +120,48 @@ class MovieFacadeImplTest {
 
     @Test
     void moviesBetweenRatings() {
+        List<Movie> moviesBetweenRatings = movieFacade.moviesBetweenRatings(51.0, 89.0, movies);
+
+        assertAll("Check if not null", () -> {
+            assertNotNull(moviesBetweenRatings);
+
+            for (Movie mov : moviesBetweenRatings) {
+                double avg = movieFacade.averageRating(mov);
+                assertTrue(51.0 < avg && avg < 89.0);
+            }
+        });
     }
 
     @Test
     void fbRatings() {
+        String div3 = "Divisble by 3";
+        String div5 = "Divisble by 5";
+        String div3and5 = "Divisble by 3 and 5";
+
+        assertAll("Check if comments are changed", () -> {
+            for (Rating rate : movieFacade.fbRatings(movies.get(99)).getRatings()) {
+                if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+                    assertEquals(div3and5, rate.getComment());
+                } else if (rate.getRating() % 3 == 0) {
+                    assertEquals(div3, rate.getComment());
+                } else if (rate.getRating() % 5 == 0) {
+                    assertEquals(div5, rate.getComment());
+                }
+            }
+        });
+
     }
 
     @Test
     void searchByTitle() {
+        String title3 = movies.get(3).getTitle();
+        assertEquals(movies.get(3), movieFacade.searchByTitle(title3, movies));
+
+        String title23 = movies.get(23).getTitle();
+        assertEquals(movies.get(23), movieFacade.searchByTitle(title23, movies));
+
+        String title83 = movies.get(83).getTitle();
+        assertEquals(movies.get(83), movieFacade.searchByTitle(title83, movies));
     }
 
     @Test

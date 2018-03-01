@@ -54,17 +54,39 @@ public class MovieFacadeImpl implements MovieFacade{
     }
 
     @Override
-    public List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating) {
-        return null;
+    public List<Movie> moviesBetweenRatings(Double lowerRating, Double higherRating, List<Movie> movies) {
+        List<Movie> list = new ArrayList();
+        for (Movie mov : movies) {
+            double avg = averageRating(mov);
+            if (lowerRating < avg && avg < higherRating) {
+                list.add(mov);
+            }
+        }
+        return list;
+
     }
 
     @Override
     public Movie fbRatings(Movie movie) {
-        return null;
+        for (Rating rate : movie.getRatings()) {
+            if (rate.getRating() % 3 == 0 && rate.getRating() % 5 == 0) {
+                rate.setComment("Divisble by 3 and 5");
+            } else if (rate.getRating() % 3 == 0) {
+                rate.setComment("Divisble by 3");
+            } else if (rate.getRating() % 5 == 0) {
+                rate.setComment("Divisble by 5");
+            }
+        }
+        return movie;
     }
 
     @Override
     public Movie searchByTitle(String title, List<Movie> movies) {
+        for (Movie mov : movies) {
+            if (mov.getTitle().equals(title)) {
+                return mov;
+            }
+        }
         return null;
     }
 
