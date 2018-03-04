@@ -104,7 +104,7 @@ class MovieFacadeImplTest {
 
         Movie result2 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.shortestMovieWithLowRating(45.0, movies));
 
-        assertAll("45.0 as minimum rating",
+        assertAll("45.0 as maximum rating",
                 () -> {
                     assertNotNull(result2);
 
