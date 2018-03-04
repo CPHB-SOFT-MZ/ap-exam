@@ -4,6 +4,7 @@ import model.Movie;
 import model.Rating;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,8 +57,8 @@ public class MovieFacadeImpl implements MovieFacade{
     }
 
     @Override
-    public Double ratingDifference(List<Movie> movies) {
-        return null;
+    public List<Movie> findNRatings(int N, List<Movie> movies) {
+        return movies.stream().filter(movie -> movie.getRatings().size() == N).collect(Collectors.toList());
     }
 
     @Override
@@ -99,6 +100,12 @@ public class MovieFacadeImpl implements MovieFacade{
 
     @Override
     public List<Movie> findByKeywords(String[] keywords, List<Movie> movies) {
-        return null;
+        List<Movie> returnMovies = new ArrayList<>();
+        movies.forEach(mov -> {
+            if(Arrays.stream(keywords).parallel().anyMatch(mov.getTitle()::contains)) {
+                returnMovies.add(mov);
+            }
+        });
+        return returnMovies;
     }
 }

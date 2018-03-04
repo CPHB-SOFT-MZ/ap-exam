@@ -47,7 +47,7 @@ public interface MovieFacade {
      * @param movies
      * @return
      */
-    Double ratingDifference(List<Movie> movies);
+    List<Movie> findNRatings(int N, List<Movie> movies);
 
     /**
      * Return a list with all movies between the two given ratings
