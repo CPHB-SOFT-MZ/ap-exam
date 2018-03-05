@@ -4,18 +4,15 @@ import model.Movie;
 import model.Rating;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +55,6 @@ class MovieFacadeImplTest {
                         assertEquals(7, result.getRatings().size());
                     });
                 }
-
         );
 
         Movie result2 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.longestMovieWithHighRating(55.0, movies));
@@ -177,7 +173,8 @@ class MovieFacadeImplTest {
 
             for (Movie mov : moviesBetweenRatings) {
                 double avg = movieFacade.averageRating(mov);
-                assertTrue(51.0 < avg && avg < 89.0);
+                assertThat(avg, allOf(is(lessThan(89.0)), is(not(lessThan(51.0)))));
+                //assertTrue(51.0 < avg && avg < 89.0);
             }
         });
     }
@@ -205,13 +202,14 @@ class MovieFacadeImplTest {
     @Test
     void searchByTitle() {
         String title3 = movies.get(3).getTitle();
-        assertEquals(movies.get(3), movieFacade.searchByTitle(title3, movies));
+        assertThat(movieFacade.searchByTitle(title3, movies), is(equalTo(movies.get(3))));
 
         String title23 = movies.get(23).getTitle();
-        assertEquals(movies.get(23), movieFacade.searchByTitle(title23, movies));
+        assertThat(movieFacade.searchByTitle(title23, movies), is(equalTo(movies.get(23))));
 
         String title83 = movies.get(83).getTitle();
         assertEquals(movies.get(83), movieFacade.searchByTitle(title83, movies));
+
     }
 
     @Test
