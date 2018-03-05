@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,6 +87,41 @@ class MovieFacadeImplTest {
 
     @Test
     void shortestMovieWithLowRating() {
+        Movie result = assertTimeout(Duration.ofMillis(10), () -> movieFacade.shortestMovieWithLowRating(60.0, movies));
+
+        assertAll("60.0 as maximum rating",
+                () -> {
+                    assertNotNull(result);
+
+                    assertAll("Value check", () -> {
+                        assertEquals(Duration.ofSeconds(912), result.getDuration());
+                        assertEquals("esse adipisicing adipisicing", result.getTitle());
+                        assertEquals(15, result.getRatings().size());
+                    });
+                }
+
+        );
+
+        Movie result2 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.shortestMovieWithLowRating(45.0, movies));
+
+        assertAll("45.0 as maximum rating",
+                () -> {
+                    assertNotNull(result2);
+
+                    assertAll("Value check", () -> {
+                        assertEquals(Duration.ofSeconds(1870), result2.getDuration());
+                        assertEquals(14, result2.getRatings().size());
+                        assertEquals("eu ipsum adipisicing", result2.getTitle());
+                    });
+                }
+        );
+
+
+        Movie result3 = assertTimeout(Duration.ofMillis(5), () -> movieFacade.shortestMovieWithLowRating(100.0, movies));
+        assertNotNull(result3);
+
+        Movie result4 = assertTimeout(Duration.ofMillis(10), () -> movieFacade.shortestMovieWithLowRating(0.0, movies));
+        assertNull(result4);
     }
 
     @Test
@@ -119,7 +155,17 @@ class MovieFacadeImplTest {
     }
 
     @Test
-    void ratingDifference() {
+    void findNRatings() {
+        List<Movie> nMovies = movieFacade.findNRatings(2, movies);
+
+        assertAll( "Check num of Mov", () -> {
+            assertNotNull(nMovies);
+            assertEquals(8, nMovies.size());
+
+            for (Movie mov : nMovies) {
+                assertTrue(mov.getRatings().size() <= 2);
+            }
+        });
     }
 
     @Test
@@ -170,6 +216,17 @@ class MovieFacadeImplTest {
 
     @Test
     void findByKeywords() {
+        String[] keywords = {"isti", "non", "nisi", "du", "makkar"};
+        List<Movie> keyWordMovies = movieFacade.findByKeywords(keywords, movies);
+
+        assertAll("Check if not null", () -> {
+            assertNotNull(keyWordMovies);
+            assertEquals(17, keyWordMovies.size());
+
+            for (Movie mov : keyWordMovies) {
+                assertTrue(Arrays.stream(keywords).anyMatch(mov.getTitle()::contains));
+            }
+        });
     }
 
 }
